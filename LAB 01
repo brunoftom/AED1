@@ -1,0 +1,90 @@
+//EX.01//
+
+//EX.02//
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int main(){
+
+    int x, y;
+    float d;
+
+    printf("Entre com a coordenada x: ");
+    scanf ("%d", &x);
+    printf("Entre com a coordenada y: ");
+    scanf ("%d", &y);
+
+    d = (0 - x)*(0 - x) + (0 - y) * (0 - y);
+    d = sqrt(d);
+    printf("\n\nA distancia entre os pontos (%d,%d) e (0,0) eh %.2f\n", x,y,d);
+
+    return 0;
+}
+
+//EX.03//
+
+//EX.04//
+
+//EX.05//
+#include <stdio.h>
+#include <stdlib.h>
+int main(){
+    int N;
+    int i, j, c = 0;
+
+    printf("Digite um numero: ");
+    scanf("%d", &N);
+
+    for(i=1; i <= N; i++){
+        for(j=1;j<=i;j++){
+            c++;
+            printf("%d ", c);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
+
+//EX.06//
+
+//EX.07//
+
+//EX.08//
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int main(){
+    int v1,v2,v3,v4,v5, soma;
+    float md, dp;
+
+    printf("Digite o valor 1: ");
+    scanf("%d", &v1);
+    printf("Digite o valor 2: ");
+    scanf("%d", &v2);
+    printf("Digite o valor 3: ");
+    scanf("%d", &v3);
+    printf("Digite o valor 4: ");
+    scanf("%d", &v4);
+    printf("Digite o valor 5: ");
+    scanf("%d", &v5);
+
+    soma = v1 + v2 + v3 + v4 + v5;
+    md = soma/5;
+
+    dp = (((v1-md)*(v1-md)) + ((v2-md)*(v2-md)) + ((v3-md)*(v3-md)) + ((v4-md)*(v4-md)) + ((v5-md)*(v5-md)))/5;
+    dp = sqrt(dp);
+    printf("\nA media eh %.2f e o desvio padrao eh %.2f", md, dp);
+    return 0;
+}
+
+//EX.09//
+
+//EX.10//
+
+//EX.11//
+
+
+
