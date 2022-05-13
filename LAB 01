@@ -1,4 +1,36 @@
 //EX.01//
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int main()
+{
+    float a, b, c, d, p1, p2, p3;
+    printf("<< Loteria >>\n");
+    printf("Bolao jogador 1: ");
+    scanf("%f", &a);
+    printf("Bolao jogador 2: ");
+    scanf("%f", &b);
+    printf("Bolao jogador 3: ");
+    scanf("%f", &c);
+
+    printf("\nInforme o valor do premio: ");
+    scanf("%f", &d);
+
+    p1 = a/(a+b+c);
+    p2 = b/(a+b+c);
+    p3 = c/(a+b+c);
+
+    p1 = d * p1;
+    p2 = d * p2;
+    p3 = d * p3;
+
+    printf("\nJogador 1 recebera: %.2f", p1);
+    printf("\nJogador 2 recebera: %.2f", p2);
+    printf("\nJogador 3 recebera: %.2f\n", p3);
+
+    return 0;
+}
 
 //EX.02//
 #include <stdio.h>
@@ -23,6 +55,26 @@ int main(){
 }
 
 //EX.03//
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int main(){
+    int b, dec = 0, i;
+    printf("== Conversor de numeros binarios ==\n");
+    printf("Digite o numero binario: ");
+    scanf("%d", &b);
+
+    printf("O numero binario %d corresponde ao numero decimal: \n",b);
+    for(i = 0; b>0; i++){
+        dec = dec + pow(2, i) * (b % 10);
+        b = b/10;
+    }
+
+    printf("%d\n", dec);
+
+    return 0;
+}
 
 //EX.04//
 
