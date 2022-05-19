@@ -4,17 +4,13 @@
 
 int main()
 {
-    int a = 40; // cria uma variável do tipo inteiro, chamada a, e inicializa
- // com valor 40;
-    int *p; // cria uma variável do tipo ponteiro para inteiro, chamada p, e o
- // conteúdo inicial é lixo;
-    p = &a; // faz p receber o endereço de a. Dizemos que p aponta para a
+    int a = 40; 
+    int *p; 
+    p = &a; 
 
+    printf("\nO endereco da variavel 'a' eh: %1u\n", &a);
 
-    printf("\nO endereco da variavel 'a' eh: %1u\n", &a);//endereço var. a
-
-    printf("\nO endereco da variavel 'a' eh: %1u\n", p);//endereco var. a
-
+    printf("\nO endereco da variavel 'a' eh: %1u\n", p);
 
     return 0;
 }
