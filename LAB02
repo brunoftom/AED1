@@ -88,7 +88,7 @@ int main(){
     return 0;
 }
 
-//EX.08//
+//EX.06//
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -121,4 +121,37 @@ int main(){
     return 0;
 }
 
+//EX.07//
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+    int tam, *x, *y, i;
+
+    printf("Quantos pontos deseja digitar: ");
+    scanf("%d", &tam);
+    printf("\n");
+    
+    x = (int *)malloc(tam*sizeof(int));
+    y = (int *)malloc(tam*sizeof(int));
+
+    for(i=0; i<tam; i++)
+    {
+        printf("Entre com a coordenada x do ponto %d: ", i+1);
+        scanf("%d", &x[i]);
+        printf("Entre com a coordenada y do ponto %d: ", i+1);
+        scanf("%d", &y[i]);
+    }
+
+    printf("\nPontos digitados: ");
+    for(i=0; i<tam; i++)
+    {
+        printf("(%d,%d)", x[i], y[i]);
+    }
+
+    free(x);
+    free(y);
+    printf("\n");
+    return 0;
+}
 
