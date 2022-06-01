@@ -1,0 +1,153 @@
+
+//main.c
+#include <stdio.h>
+#include <stdlib.h>
+#include "ponto.h"
+
+int main()
+{
+    Ponto *A, *B;
+
+    float x, y;
+
+    A = gera_pto(); B = gera_pto();
+
+    if(A == NULL || B == NULL){
+        printf("Nao foi possivel gerar os pontos\n");
+        return -1;
+    }
+
+    printf("Digite o valor do primeiro ponto:  ");
+    scanf("%f",&x); scanf("%f", &y);
+
+    if(set_pto(A, x, y) == 0){
+        printf("Nao foi possivel preencher o primeiro ponto\n");
+        return -1;
+    }
+
+    printf("Digite o valor do segundo ponto:  ");
+    scanf("%f",&x); scanf("%f", &y);
+
+    if(set_pto(B, x, y) == 0){
+        printf("Nao foi possivel preencher o segundo ponto\n");
+        return -1;
+    }
+
+    distancia_pto(A,B);
+
+    libera_pto(&A); libera_pto(&B);
+
+    return 0;
+}
+
+//ponto.c
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+struct ponto{
+    float x;
+    float y;
+};
+typedef struct ponto Ponto;
+
+/*
+gera_pto
+Entrada: nenhuma
+Pré-condição: nenhuma
+Processo: cria uma instancia de um ponto sem valroes
+Saída: ponto
+Pós-condição: ponto criado
+*/
+Ponto * gera_pto(){
+    Ponto *p;
+    p = (Ponto *)malloc(sizeof(Ponto));
+    return p;
+}
+
+/*
+set_pto
+Entrada: endereço do ponto, ponto a, ponto b
+Pré-condição: struct ponto e variaveis "a" e "b" nao estarem vazias
+Processo: atribui valores das coordenadas x e y de um ponto
+Saída: 1 sucesso, 0 caso contrario
+Pós-condição: nenhuma
+*/
+int set_pto(Ponto *p, float a, float b){
+    if(p == NULL || a == 0 || b == 0)
+        return 0;
+
+    p->x = a;
+    p->y = b;   
+
+    return 1;
+}
+
+/*
+get_pto
+Entrada: endereço do ponto, endereço ponto a, endereço ponto b
+Pré-condição: struct ponto e variaveis "a" e "b" nao estarem vazias
+Processo: retorna valores das coordenadas x e y de um ponto
+Saída: 1 sucesso, 0 caso contrario
+Pós-condição: nenhuma
+*/
+int get_pto(Ponto *p, float *a, float *b){
+    if(p == NULL || a == 0 || b == 0)
+        return 0;
+
+    *a = p->x;
+    *b = p->y;
+
+    return 1;
+
+}
+
+/*
+libera_pto
+Entrada: endereço do ponto
+Pré-condição: nenhuma
+Processo: elimina o ponto criado
+Saída: nenhuma
+Pós-condição: nenhuma
+*/
+void libera_pto(Ponto ** p){
+    free(*p);
+    *p = NULL;
+}
+
+/*
+distancia_pto
+Entrada: endereço do P1 e endereço do P2
+Pré-condição: nenhuma
+Processo: calcula a distancia entre dois pontos
+Saída: nenhuma
+Pós-condição: nenhuma
+*/
+void distancia_pto(Ponto *P1, Ponto *P2){
+    Ponto *R;
+    R = gera_pto();
+    float r;
+
+    if(R != NULL){
+        R->x = pow(P2->x - P1->x, 2);
+        R->y = pow(P2->y - P1->y, 2);
+        r = sqrt(R->x + R->y);
+    }
+    printf("A distancia entre os pontos eh: %.2f \n",r);
+}
+
+
+//ponto.h
+#ifndef PONTO_H_INCLUDED
+#define PONTO_H_INCLUDED
+
+
+typedef struct ponto Ponto;
+
+Ponto * gera_pto();
+int set_pto(Ponto *p, float a, float b);
+int get_pto(Ponto *p, float *a, float *b);
+void libera_pto(Ponto ** p);
+void distancia_pto(Ponto *P1, Ponto *P2);
+
+#endif // PONTO_H_INCLUDED
