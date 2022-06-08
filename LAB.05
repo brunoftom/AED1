@@ -1,4 +1,4 @@
-//EX.01//
+/////////////EX.01/////////////
 //main.c//
 #include <stdio.h>
 #include <stdlib.h>
@@ -230,7 +230,7 @@ int obtem_valor_elem(Lista lst, int i, int *nro);
 
 #endif // LISTA_H_INCLUDED
 
-//EX.02//
+/////////////EX.02/////////////
 
 //main.c//
 #include <stdio.h>
@@ -475,7 +475,7 @@ int obtem_valor_elem(Lista lst, int i, int *nro);
 
 #endif // LISTA_H_INCLUDED
 
-//EX.03//
+/////////////EX.03/////////////
 //main.c//
 #include <stdio.h>
 #include <stdlib.h>
