@@ -229,3 +229,643 @@ int remove_elem(Lista lst, int elem);
 int obtem_valor_elem(Lista lst, int i, int *nro);
 
 #endif // LISTA_H_INCLUDED
+
+//EX.02//
+
+//main.c//
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#define max 20
+#include "lista2.h"
+
+int main()
+{
+    int op, elem, qtd, n;
+    Lista lst;
+
+    do{
+        system("CLS || clear");
+        do{
+            printf(" --- LISTAS ESTATICAS SEQUENCIAIS --- \n\n");
+            printf(" Escolha uma opcao\n");
+            printf(" 1. Criar lista\n");
+            printf(" 2. Verificar lista vazia\n");
+            printf(" 3. Verificar lista cheia\n");
+            printf(" 4. Inserir elemento\n");
+            printf(" 5. Excluir elemento\n");
+            printf(" 6. Imprimir lista\n");
+            printf(" 7. SAIR\n");
+            printf(" Opcao: ");
+            scanf("%d", &op);
+            if((op < 1) || (op > 7)) {
+
+                printf("\n\n Opcao Invalida! Tente novamente...");
+                getch();
+                system("CLS || clear");
+            }
+        } while((op < 1) || (op > 7));
+
+        switch(op)
+        {
+            case 1:
+                printf("\nOpcao 1 escolhida -  Criar lista\n");
+                lst = cria_lista();
+                if(lst == NULL)
+                {
+                    printf("Falha na criacao da lista!\n\n");
+                    return 0;
+                }else{
+                    printf("Lista criada com sucesso!!\n\n");
+                }
+                getch();
+                break;
+            case 2:
+                printf("\nOpcao 2 escolhida -  Verificar lista vazia\n");
+                if(lista_vazia(lst) == 1){
+                    printf("\nLista esta vazia\n");
+                }else{
+                    printf("\nLista nao esta vazia\n");
+                }
+                getch();
+                break;
+
+            case 3:
+                printf("\nOpcao 3 escolhida -  Verificar lista cheia\n");
+                if(lista_cheia(lst) == 1){
+                    printf("Lista esta cheia \n");
+                }else
+                {
+                    printf("Lista nao esta cheia\n");
+                }
+                getch();
+                break;
+
+            case 4:
+                printf("\nOpcao 4 escolhida -  Inserir elemento\n");
+                if(lista_cheia(lst) == 1)
+                    printf("Lista esta cheia \n");
+
+                printf("Quantos elementos deseja inserir na lista? ");
+                scanf("%d", &qtd);
+                 while(qtd<0 || qtd>max)
+                    {
+                        printf("\nQuantidade inválida!\n");
+                        printf("\nDigite novamente: ");
+                        scanf("%d", &qtd);
+                    }
+                printf("Insira os elementos:\n");
+
+                for(int i = 0;i<qtd; i++)
+                {
+                    if(lista_cheia(lst) == 1){
+                        printf("Lista esta cheia \n");
+                    }
+                    printf("Elemento %d: ", i+1);
+                    scanf("%d", &elem);
+                    insere_elem(lst, elem);
+                }
+                getch();
+                break;
+
+            case 5:
+                printf("\nOpcao 5 escolhida -  Remover elemento\n");
+                if(lista_vazia(lst) == 1){
+                    printf("\nLista esta vazia\n");
+                }
+
+                printf("Qual elemento deseja remover? ");
+                scanf("%d", &n);
+                if(remove_elem(lst, n) == 0)
+                {
+                    printf("\nElemento nao encontrado na lista!\n");
+                }else{
+                    printf("\nElemento removido com sucesso!\n");
+                    qtd--;
+                }
+                getch();
+                break;
+
+            case 6:
+                printf("\nOpcao 6 escolhida -  Imprimir lista\n");
+                if(lista_vazia(lst) == 1){
+                    printf("\nLista esta vazia\n");
+                    break;
+                }
+                printf("\nLista: {");
+                for(int j=0; j<qtd; j++)
+                {
+                    obtem_valor_elem(lst,j,&elem);
+                    printf(" %d ", elem);
+                }
+                printf("}\n");
+                getch();
+                break;
+
+            case 7:
+                printf("\n\nFim do programa \n\n");
+                break;
+
+            default:
+				printf("\n\n Pressione qualquer tecla para FINALIZAR...");
+				getch();
+        }
+    } while(op != 7);
+
+    return 0;
+}
+
+//lista2.c//
+#include <stdio.h>
+#include <stdlib.h>
+#define max 20
+
+#include "lista2.h"
+
+struct lista{
+    int no[max];
+    int fim;
+};
+typedef struct lista *Lista;
+
+Lista cria_lista(){
+    Lista lst;
+    lst = (Lista)malloc(sizeof(struct lista));
+
+    if(lst != NULL)
+        lst->fim = 0;
+
+    return lst;
+}
+
+int lista_vazia(Lista lst){
+    if(lst->fim == 0)
+        return 1;
+    else
+        return 0;
+}
+
+int lista_cheia(Lista lst){
+    if(lst->fim == max)
+        return 1;
+    else
+        return 0;
+}
+
+int insere_elem(Lista lst, int elem){
+    if(lst == NULL || lista_cheia(lst) == 1)
+        return 0;
+
+    if(lista_vazia(lst)==1 || elem>=lst->no[lst->fim-1]){
+        lst->no[lst->fim] = elem;
+    }
+    else{
+        int i, aux = 0;
+        while(elem >= lst->no[aux])
+            aux++;
+        for(i=lst->fim; i>aux; i--)
+            lst->no[i] = lst->no[i-1];
+        lst->no[aux] = elem;
+    }
+    lst->fim++;
+
+    return 1;
+}
+
+int remove_elem(Lista lst, int elem){
+    if(lst == NULL || lista_vazia(lst) == 1 || elem <lst->no[0] || elem > lst->no[lst->fim-1])
+        return 0;
+
+    int i, aux = 0;
+
+    while(aux < lst->fim && lst->no[aux] < elem)
+        aux++;
+
+    if(aux == lst->fim || lst->no[aux] > elem)
+        return 0;
+
+    for(i = aux+1; i<lst->fim; i++){
+        lst->no[i-1] = lst->no[i];
+    }
+
+    lst->fim--;
+    return 1;
+}
+
+int obtem_valor_elem(Lista lst, int i, int *nro){
+    if(lst == NULL || lista_vazia(lst))
+        return 0;
+
+    *nro = (*lst).no[i];
+
+    return 1;
+}
+
+//lista2.h//
+#ifndef LISTA_H_INCLUDED
+#define LISTA_H_INCLUDED
+
+typedef struct lista *Lista;
+Lista cria_lista();
+int lista_vazia(Lista lst);
+int lista_cheia(Lista lst);
+int insere_elem(Lista lst, int elem);
+int remove_elem(Lista lst, int elem);
+int obtem_valor_elem(Lista lst, int i, int *nro);
+
+#endif // LISTA_H_INCLUDED
+
+//EX.03//
+//main.c//
+#include <stdio.h>
+#include <stdlib.h>
+#include "bebidas.h"
+#define MAX 11
+
+int main()
+{
+    Lista lst;
+    char *vet2[MAX], vet[MAX];
+    int j = 1, k =0, l = 0, option = 0, volume = 0;
+    float preco = 0;
+
+    lst = cria_lista();
+
+    if(lst == NULL)
+    {
+        return 0;
+    }
+
+    while(j == 1)
+    {
+
+        printf("\n[1] Inserir registro");
+        printf("\n[2] Apagar um registro");
+        printf("\n[3] Imprimir Lista");
+        printf("\n[4] Limpar lista:  ");
+        printf("\n[5] Pesquisar posicao:  ");
+        printf("\n[6] Sair:  ");
+
+        scanf("%d", &option);
+
+        if(option == 1)
+        {
+            if (lista_cheia(lst) == 1)
+            {
+                printf("\n\nLISTA CHEIA!!\n\n");
+            }
+            else
+            {
+                printf("\nDigite o nome da bebida: ");
+                scanf("%s",vet);
+                printf("\nDigite o volume da bebida: ");
+                scanf("%d", &volume);
+                printf("\nDigite o preco da bebida: ");
+                scanf("%f", &preco);
+                insere_ord(lst, vet, &volume, &preco);
+            }
+        }
+        else if(option == 2)
+        {
+            printf("\nDigite o que voce deseja excluir: ");
+            scanf("%s", vet);
+            k = remove_ord(lst, vet);
+            if (k == 0)
+            {
+                printf("\n\nELEMENTO NAO EXISTE!!\n\n");
+            }
+        }
+        else if(option == 3)
+        {
+
+            if (lista_vazia(lst) == 1)
+            {
+                printf("\n\nLISTA VAZIA!!\n\n");
+            }
+            else
+            {
+                l = 0;
+                k = get_end(lst);
+                while (l<k)
+                {
+
+                    vet2[0] = get_element_name(lst, l);
+                    volume = get_element_volume(lst, l);
+                    preco = get_element_preco(lst, l);
+                    printf("\nBEBIDA [%d]: ", l+1);
+                    printf("\n\tNome: %s", (*vet2));
+                    printf("\n\tVolume: %dml", volume);
+                    printf("\n\tPreco: R$ %.2f\n", preco);
+                    l++;
+                }
+            }
+
+        }
+        else if(option == 4)
+        {
+
+            if (lista_vazia(lst) == 1)
+            {
+                printf("\n\nLISTA JA ESTA VAZIA!!\n\n");
+            }
+            else
+            {
+                limpa_lista(lst);
+            }
+
+        }
+        else if(option == 5)
+        {
+            if (lista_vazia(lst) == 1)
+            {
+                printf("\n\nLISTA VAZIA!!\n\n");
+            }
+            else
+            {
+                printf("\nDigite o elemento que vc quer a posicao: ");
+                scanf("%s", vet);
+                l = get_posicao(lst, vet);
+                if(l == 0)
+                {
+                    printf("\n\nELEMENTO NAO EXISTE!!\n\n");
+                }
+                else
+                {
+                    printf("\nPosicao: %d", l);
+                }
+            }
+        }
+        else if(option == 6)
+        {
+            return 0;
+        }
+        else
+        {
+            printf("OPCAO INVALIDA!!");
+            return 0;
+        }
+
+        printf("\n\n");
+    }
+    libera_lista(&lst);
+    free(lst);
+    lst = NULL;
+
+    return 0;
+}
+
+//bebidas.c//
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "bebidas.h"
+#define MAXN 20
+#define MAX 11
+
+struct Bebidas // Cria uma STRUCT para armazenar os dados de uma pessoa
+{
+    char nome[MAX];    // define o campo nome
+    int volume; // define o campo volume
+    float preco; // define o campo preco
+}; // Define o nome do novo tipo criado
+typedef struct Bebidas Bebidas;
+
+struct lista
+{
+    Bebidas bebidas[MAXN];
+    int Fim;
+};
+typedef struct lista * Lista;
+
+
+Lista cria_lista()
+{
+    Lista lst;
+    lst = (Lista) malloc(sizeof(struct lista));
+    if (lst != NULL)
+    {
+        lst->Fim = 0;// Lista vazia
+    }
+    return lst;
+}
+
+int lista_vazia(Lista lst)
+{
+    if (lst->Fim == 0)
+    {
+        return 1; // Lista vazia
+    }
+    else
+    {
+        return 0; // Lista NÃO vazia
+    }
+}
+
+int lista_cheia(Lista lst)
+{
+    if (lst->Fim == MAXN)
+    {
+        return 1; // Lista cheia
+    }
+    else
+    {
+        return 0; // Lista NÃO cheia
+    }
+}
+
+int insere_ord(Lista lst, char *elem, int *volume, float *preco)
+{
+    if (lst == NULL || lista_cheia(lst) == 1)
+    {
+        return 0;
+    }
+
+    if (lista_vazia(lst) == 1 || (strcmp(elem, lst->bebidas[lst->Fim-1].nome) >= 0 && (*volume) >= lst->bebidas[lst->Fim-1].volume))
+    {
+        for(int i = 0; i<MAX; i++)
+        {
+            lst->bebidas[lst->Fim].nome[i] = elem[i]; // Insere elemento no final
+        }
+        lst->bebidas[lst->Fim].volume = (*volume);
+        lst->bebidas[lst->Fim].preco = (*preco);
+    }
+    else
+    {
+        int i, aux = 0;
+        while (aux < (lst->Fim) &&  (strcmp(elem, lst->bebidas[aux].nome) >= 0))   // Percorrimento
+        {
+            if((strcmp(elem, lst->bebidas[aux].nome) == 0))
+            {
+                if((lst->bebidas[aux].volume) > (*volume))
+                {
+                    break;
+                }
+            }
+            aux++;
+        }
+
+        for (i = lst->Fim; i > aux; i--) // Deslocamento
+        {
+            for(int j = 0; j<MAX-1; j++)
+            {
+                lst->bebidas[i].nome[j] = lst->bebidas[i-1].nome[j]; // Insere elemento
+            }
+            lst->bebidas[i].volume = lst->bebidas[i-1].volume;
+            lst->bebidas[i].preco = lst->bebidas[i-1].preco;
+        }
+
+        for(i = 0; i<MAX-1; i++)
+        {
+            lst->bebidas[aux].nome[i] = elem[i]; // Insere elemento
+        }
+        lst->bebidas[aux].volume = (*volume);
+        lst->bebidas[aux].preco = (*preco);
+    }
+    lst->Fim++; // Avança o Fim
+    return 1;
+}
+
+int remove_ord (Lista lst, char *elem)
+{
+    int i = 0, j = 0;
+    if (lst == NULL || lista_vazia(lst) == 1/* || elem < lst->bebidas[0].nome || elem > lst->bebidas[lst->Fim-1].nome*/)
+    {
+        return 0; // Falha
+    }
+
+    i = get_posicao(lst, elem);
+
+    /*if (i == lst->Fim || lst->bebidas[i].nome > elem) // Final de lista (∄elem)
+    {
+        return 0; // Falha
+    }*/
+    // Deslocamento à esq. do sucessor até o final da lista
+    for (i = get_posicao(lst, elem); i < lst->Fim; i++)
+    {
+        for(j = 0; j<MAX-1; j++)
+        {
+            lst->bebidas[i-1].nome[j] = lst->bebidas[i].nome[j];
+
+        }
+        lst->bebidas[i-1].volume = lst->bebidas[i].volume;
+        lst->bebidas[i-1].preco = lst->bebidas[i].preco;
+
+    }
+    lst->Fim--; // Decremento do campo Fim
+    return 1; // Sucesso
+}
+
+int get_posicao(Lista lst, char *elem)
+{
+    int i = 0, j = 0, Aux = -1;
+    if (lst == NULL || lista_vazia(lst) == 1)
+    {
+        return 0; // Falha
+    }
+
+    while (Aux <= lst->Fim &&  j!=9)
+    {
+        j = 0;
+        for(i = 0; i<9; i++)
+        {
+            if (lst->bebidas[Aux].nome[i] == elem[i])
+            {
+                j++;
+            }
+        }
+        Aux++;
+    }
+
+    if (Aux > lst->Fim) // Final de lista (∄elem)
+    {
+        return 0; // Falha
+    }
+
+    return Aux;//sucesso
+}
+
+char * get_element_name(Lista lst, int position)
+{
+    if (lst == NULL || lista_vazia(lst) == 1)
+    {
+        return 0; // Falha
+    }
+
+    return lst->bebidas[position].nome;
+}
+int get_element_volume(Lista lst, int position)
+{
+    if (lst == NULL || lista_vazia(lst) == 1)
+    {
+        return 0; // Falha
+    }
+
+    return lst->bebidas[position].volume;
+}
+
+float get_element_preco(Lista lst, int position)
+{
+    if (lst == NULL || lista_vazia(lst) == 1)
+    {
+        return 0; // Falha
+    }
+
+    return lst->bebidas[position].preco;
+}
+
+
+int get_end(Lista lst)
+{
+    if (lst == NULL || lista_vazia(lst) == 1)
+    {
+        return 0; // Falha
+    }
+    return lst->Fim;
+}
+
+int limpa_lista(Lista lst)
+{
+    if (lst == NULL || lista_vazia(lst) == 1)
+    {
+        return 0; // Falha
+    }
+    else
+    {
+        while (lst->Fim>0)
+        {
+            lst->Fim--;
+        }
+        return 1;
+    }
+
+}
+
+void libera_lista(Lista *lst)
+{
+    free(lst);
+    lst = NULL;
+}
+
+//bebidas.h//
+#ifndef COMPLEXO_H_INCLUDED
+#define COMPLEXO_H_INCLUDED
+#define MAXN 20
+#define MAX 11
+#endif // COMPLEXO_H_INCLUDED
+
+
+typedef struct String String;
+typedef struct lista * Lista;
+
+Lista cria_lista();
+int lista_vazia(Lista lst);
+int lista_cheia(Lista lst);
+int insere_ord(Lista lst, char *elem, int *volume, float *preco);
+int remove_ord (Lista lst, char *elem);
+int get_posicao(Lista lst, char *elem);
+char * get_element_name(Lista lst, int position);
+int get_element_volume(Lista lst, int position);
+float get_element_preco(Lista lst, int position);
+int get_end(Lista lst);
+int limpa_lista(Lista lst);
+void libera_lista(Lista *lst);
