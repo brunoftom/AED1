@@ -7,7 +7,7 @@
 int main()
 {
     Pilha p1;
-    int op, elem;
+    int op, elem, pilha;
 
     do{
         system("CLS || clear");
@@ -19,16 +19,17 @@ int main()
             printf(" 3. Inserir elemento\n");
             printf(" 4. Remover elemento\n");
             printf(" 5. Imprimir pilha\n");
-            printf(" 6. SAIR\n");
+            printf(" 6. Ler topo da pilha\n");
+            printf(" 7. SAIR\n");
             printf(" Opcao: ");
             scanf("%d", &op);
-            if((op < 1) || (op > 6)) {
+            if((op < 1) || (op > 7)) {
 
                 printf("\n\n Opcao Invalida! Tente novamente...");
                 getch();
                 system("CLS || clear");
             }
-        } while((op < 1) || (op > 6));
+        } while((op < 1) || (op > 7));
 
         switch(op)
         {
@@ -40,13 +41,13 @@ int main()
             case 2:
                 printf("\nOpcao 2 escolhida -  Verificar pilha vazia\n");
 
-                if(pilha_vazia(p1) == -1)
+                if(pilha_vazia(p1) != -1)
                 {
                     printf("\nPilha vazia\n");
                 }
                 else
                 {
-                    printf("\nLista nao esta vazia");
+                    printf("\Pilha nao esta vazia");
                 }
                 getch();
                 break;
@@ -82,16 +83,21 @@ int main()
                 break;
             case 5:
                 printf("\nOpcao 5 escolhida -  imprimir pilha\n");
+                pilha = print1(p1);
                 getch();
                 break;
             case 6:
+                printf("\nOpcao 6 escolhida -  ler topo da  pilha\n");
+                printf("\nElemento que esta no topo: ");
+                le_topo((p1,&elem));
+            case 7:
                 printf("\n\nFim do programa \n\n");
                 break;
             default:
 				printf("\n\n Pressione qualquer tecla para FINALIZAR...");
 				getch();
         }
-    } while(op != 6);
+    } while(op != 7);
 
     return 0;
 }

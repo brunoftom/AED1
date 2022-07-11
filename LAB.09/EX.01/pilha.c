@@ -63,3 +63,14 @@ int le_topo(Pilha p, int *elem)
 
     return 1;
 }
+
+void print1(Pilha p)
+{
+    printf("Pilha: { ");
+    for(int i =0; i<p->topo; i++)
+    {
+        printf(" %d ", p->no[i]);
+
+    }
+    printf("}");
+}

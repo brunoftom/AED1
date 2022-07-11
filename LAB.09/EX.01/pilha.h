@@ -9,6 +9,6 @@ int pilha_cheia(Pilha p);
 int push(Pilha p, int elem);//push
 int pop(Pilha p, int *elem);//pop
 int le_topo(Pilha p, int *elem);
-
+void print1(Pilha p);
 
 #endif // PILHA_H_INCLUDED
